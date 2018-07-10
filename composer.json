@@ -1,0 +1,23 @@
+{
+    "name": "fge/nucg",
+    "description": "packete de servicio de generacion de nuc",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ortega Yañez Brain Rafael",
+            "email": "yorb1990@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7",
+        "laravel/framework": ">=5",
+        "fge/nucc": "*"
+    },
+    "minimum-stability": "beta",
+    "autoload": {
+        "psr-4": {
+            "fge\\nucg\\": "/"
+        }
+    }    
+}
