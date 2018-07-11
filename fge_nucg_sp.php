@@ -7,7 +7,7 @@ class fge_nucg_sp extends ServiceProvider
     protected $namespace = 'fge\nucg\controller';
     public function map()
     {
-        Route::prefix('fge-tok')
+        Route::prefix(['middleware' => 'admin'],'fge-tok')
              ->namespace($this->namespace)
              ->group(__DIR__.'/routes/api.php');
     }
