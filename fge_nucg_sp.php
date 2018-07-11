@@ -9,10 +9,7 @@ class fge_nucg_sp extends ServiceProvider
     {        
         Route::prefix('fge-tok')
              ->namespace($this->namespace)
-             ->group(
-                 ['middleware' => 'fge-tok'],
-                __DIR__.'/routes/api.php'
-            );
+             ->group(__DIR__.'/routes/api.php');
     }
     public function boot()
     {        
