@@ -6,10 +6,13 @@ class fge_nucg_sp extends ServiceProvider
 {
     protected $namespace = 'fge\nucg\controller';
     public function map()
-    {
-        Route::prefix(['middleware' => 'admin'],'fge-tok')
+    {        
+        Route::prefix('fge-tok')
              ->namespace($this->namespace)
-             ->group(__DIR__.'/routes/api.php');
+             ->group(
+                 ['middleware' => 'fge-tok'],
+                __DIR__.'/routes/api.php'
+            );
     }
     public function boot()
     {        
