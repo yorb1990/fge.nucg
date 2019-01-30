@@ -71,7 +71,7 @@ class nucgController extends Controller
                 /*DB::table('modulos')->where('id',$id)->update([
                     'prefix'=>$clave
                 ]);*/
-                return \Response::json(['message'=>$clave]);
+                return \Response::json(['message'=>$modulo->prefix]);
             }
             return \Response::json(['message'=>$modulo->prefix]);
         } catch(\Exception $e) {
