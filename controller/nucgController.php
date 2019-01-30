@@ -65,9 +65,12 @@ class nucgController extends Controller
                 for($i=strlen($clave);$i<4;$i++){
                     $clave="0".$clave;
                 }
-                DB::table('modulos')->where('id',$id)->update([
+                $modulo = \fge\nucc\models\moduloModel::find($id);
+                $modulo->prefix = $clave;
+                $modulo->save();
+                /*DB::table('modulos')->where('id',$id)->update([
                     'prefix'=>$clave
-                ]);
+                ]);*/
                 return \Response::json(['message'=>$clave]);
             }
             return \Response::json(['message'=>$modulo->prefix]);
