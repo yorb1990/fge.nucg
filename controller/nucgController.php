@@ -66,7 +66,7 @@ class nucgController extends Controller
                     $clave="0".$clave;
                 }
                 $modulo = \fge\nucc\models\moduloModel::find($id);
-                $modulo->prefix = $clave;
+                $modulo->prefix = strtoupper($clave);
                 $modulo->save();
                 /*DB::table('modulos')->where('id',$id)->update([
                     'prefix'=>$clave
