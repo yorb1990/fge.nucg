@@ -5,4 +5,4 @@ Route::post('gnuc','nucgController@gnuc');
 Route::post('mnuc','nucgController@mnuc');
 Route::post('hnuc','nucgController@hnuc');
 Route::post('dnuc','nucgController@dnuc');
-Route::post('cnucr','\fge\nucg\controller\nucgController@cnuc');
+Route::post('cnucr','nucgController@cnuc');

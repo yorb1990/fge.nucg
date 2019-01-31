@@ -15,7 +15,7 @@ class nucgController extends Controller
             $nucr->nuccvv($nuc,$request->input('cvv'));
             $error='';
             if($nucr->IsValid($error)){            
-                $nucd=new \fge\nucc\models\nucModel();
+                $nucd=new \fge\nucg\models\nucModel();
                 $nucd=$nucd::where('nuc',$nuc)->first();
                 if($nucd==null){
                     return \Response::json(['message'=>'no registrado'],506);
@@ -24,7 +24,7 @@ class nucgController extends Controller
                 $nucd->enabled=true;
                 $nucd->save();            
                 $ipr=$request->ip();        
-                $folio=new \fge\nucc\models\foliodoModel();
+                $folio=new \fge\nucg\models\foliodoModel();
                 $folio->nucl=$nuc;
                 $folio->clave=$request->input('clave');
                 $folio->id_estadosnuc=5;
@@ -48,7 +48,7 @@ class nucgController extends Controller
             $nucr->nuccvv($nuc,$request->input('cvv'));
             $error='';
             if($nucr->IsValid($error)){            
-                $nucd=new \fge\nucc\models\nucModel();
+                $nucd=new \fge\nucg\models\nucModel();
                 $nucd=$nucd::where('nuc',$nuc)->first();
                 if($nucd==null){
                     return \Response::json(['message'=>'no registrado'],506);
@@ -57,7 +57,7 @@ class nucgController extends Controller
                 $nucd->enabled=true;
                 $nucd->save();            
                 $ipr=$request->ip();        
-                $folio=new \fge\nucc\models\foliodoModel();
+                $folio=new \fge\nucg\models\foliodoModel();
                 $folio->nucl=$nuc;
                 $folio->clave=$request->input('clave');
                 $folio->id_estadosnuc=6;
@@ -77,7 +77,7 @@ class nucgController extends Controller
             if($request->input('name')==null){
                 return \Response::json(['message'=>'error nombre invalido'],506);
             }
-            $modulo=new \fge\nucc\models\moduloModel();
+            $modulo=new \fge\nucg\models\moduloModel();
             $modulo=$modulo
                 ->where('name',$request->input('name'))
                 ->where('ip',$ip)
@@ -99,7 +99,7 @@ class nucgController extends Controller
                 for($i=strlen($clave);$i<4;$i++){
                     $clave="0".$clave;
                 }
-                $modulo = \fge\nucc\models\moduloModel::find($id);
+                $modulo = \fge\nucg\models\moduloModel::find($id);
                 $modulo->prefix = strtoupper($clave);
                 $modulo->save();
                 /*DB::table('modulos')->where('id',$id)->update([
@@ -116,7 +116,7 @@ class nucgController extends Controller
 	public function gnuc(Request $request){
         try{
             $ipr=$request->ip();        
-            $modulo=new \fge\nucc\models\moduloModel();
+            $modulo=new \fge\nucg\models\moduloModel();
             $modulo=$modulo::where('prefix',$request->input('clave'))->first();
             if($modulo==null){
                 return \Response::json(['message'=>'error clave invalida'],506);
@@ -125,18 +125,18 @@ class nucgController extends Controller
             $nucr=new \fge\nucg\src\nucg();
             $nucr->nnuc($prefix,date("y"));
             do{
-                $nucd=new \fge\nucc\models\nucModel();
+                $nucd=new \fge\nucg\models\nucModel();
                 $error='';
                 if(!$nucr->fullnuc($error)){
                     return \Response::json(['message'=>$error],506);
                 }            
                 $nucd=$nucd::where('nuc',$nucr->nuc)->first();
             }while($nucd!=null);
-            $nucd=new \fge\nucc\models\nucModel();
+            $nucd=new \fge\nucg\models\nucModel();
             $nucd->nuc=$nucr->nuc;
             $nucd->enabled=false;
             $nucd->save();
-            $folio=new \fge\nucc\models\foliodoModel();
+            $folio=new \fge\nucg\models\foliodoModel();
             $folio->clave=$request->input('clave');
             $folio->id_estadosnuc=1;
             $folio->ip=$ipr;
@@ -159,7 +159,7 @@ class nucgController extends Controller
             $error='';
             if($nucr->IsValid($error)){            
                 $ipr=$request->ip();
-                $folio=new \fge\nucc\models\foliodoModel();
+                $folio=new \fge\nucg\models\foliodoModel();
                 $folio->nucl=$nuc;
                 $folio->clave=$request->input('clave');
                 $folio->id_estadosnuc=2;
@@ -183,18 +183,18 @@ class nucgController extends Controller
             $nucr->nuccvv($nuc,$request->input('cvv'));
             $error='';
             if($nucr->IsValid($error)){            
-                $nucd=new \fge\nucc\models\nucModel();
+                $nucd=new \fge\nucg\models\nucModel();
                 $nucd=$nucd::where('nuc',$nuc)->first();
                 if($nucd==null){
                     return \Response::json(['message'=>'nuc no registrado'],506);
                 }
-                $clave=new \fge\nucc\models\moduloModel();
+                $clave=new \fge\nucg\models\moduloModel();
                 $clave=$clave::where('prefix',$request->input('clave'))->first();
                 if($clave==null){
                     return \Response::json(['message'=>'clave no registrada'],506);
                 }
                 $ipr=$request->ip();        
-                $folio=new \fge\nucc\models\foliodoModel();
+                $folio=new \fge\nucg\models\foliodoModel();
                 $folio->nucl=$nuc;
                 $folio->clave=$request->input('clave');
                 if($nucr->same($folio->clave)){
