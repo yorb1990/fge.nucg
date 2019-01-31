@@ -3,8 +3,31 @@ namespace fge\nucg\controller;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+
 class nucgController extends Controller
 {
+    public function asignarCarpetaNuc($nuc = null, $clave = null, $carpeta= null, $id_estadosnuc = null )
+    {
+        try {
+            $response = \fge\nucg\models\CarpetaModel::where('carpeta',$carpeta)->get();
+            if($response){
+                return \Response::json(['message'=>'carpeta ya registrada'],506);                
+            }
+
+            $carpeta = new \fge\nucg\models\CarpetaModel();
+            $carpeta->nuc           = $nuc;
+            $carpeta->clave         = $clave;
+            $carpeta->carpeta       = $carpeta;
+            $carpeta->id_estadosnuc = $estatus;
+            $carpeta->save();
+            
+            return \Response::json('asignado',200);
+
+        } catch (\Throwable $th) {
+            return \Response::json(['message'=>'error interno consulte al administrador'],506);
+        }
+    }
+
     public function hnuc(Request $request){
         try{
             $nuc=$request->input('nuc');
@@ -30,6 +53,10 @@ class nucgController extends Controller
                 $folio->id_estadosnuc=5;
                 $folio->ip=$ipr;
                 $folio->save();
+
+                $this->asignarCarpetaNuc($folio->nucl, $folio->clave, $request->input('carpeta'), $id_estadosnuc);
+
+
                 return \Response::json('habilitado',200);
             }
         } catch(\Exception $e) {
@@ -63,6 +90,9 @@ class nucgController extends Controller
                 $folio->id_estadosnuc=6;
                 $folio->ip=$ipr;
                 $folio->save();
+
+                $this->asignarCarpetaNuc($folio->nucl, $folio->clave, $request->input('carpeta'), $id_estadosnuc);
+                
                 return \Response::json('habilitado',200);
             }
         } catch(\Exception $e) {
