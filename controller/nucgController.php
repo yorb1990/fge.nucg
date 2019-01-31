@@ -37,6 +37,40 @@ class nucgController extends Controller
             return \Response::json(['message'=>'error interno consulte al administrador'],506);
         }
     }
+
+    public function dnuc(Request $request){
+        try{
+            $nuc=$request->input('nuc');
+            if(!preg_match('/^[0-9 A-Z]{4}-([0-9 A-Z]){6}-[0-9]{2}$/',$nuc)){
+                return \Response::json(['message'=>'formato del nuc invalido'],506);
+            }
+            $nucr=new \fge\nucg\src\nucg();
+            $nucr->nuccvv($nuc,$request->input('cvv'));
+            $error='';
+            if($nucr->IsValid($error)){            
+                $nucd=new \fge\nucc\models\nucModel();
+                $nucd=$nucd::where('nuc',$nuc)->first();
+                if($nucd==null){
+                    return \Response::json(['message'=>'no registrado'],506);
+                }
+                $nucd=$nucd::find($nucd->id);
+                $nucd->enabled=true;
+                $nucd->save();            
+                $ipr=$request->ip();        
+                $folio=new \fge\nucc\models\foliodoModel();
+                $folio->nucl=$nuc;
+                $folio->clave=$request->input('clave');
+                $folio->id_estadosnuc=6;
+                $folio->ip=$ipr;
+                $folio->save();
+                return \Response::json('habilitado',200);
+            }
+        } catch(\Exception $e) {
+            \fge\nucg\src\log::escribe($request->ip(),$e);
+            return \Response::json(['message'=>'error interno consulte al administrador'],506);
+        }
+    }
+
     public function regmod(Request $request){        
         try{
             $ip=(string)$request->ip();
@@ -124,7 +158,7 @@ class nucgController extends Controller
             $nucr->nuccvv($nuc,$request->input('cvv'));
             $error='';
             if($nucr->IsValid($error)){            
-                $ipr=$request->ip();        
+                $ipr=$request->ip();
                 $folio=new \fge\nucc\models\foliodoModel();
                 $folio->nucl=$nuc;
                 $folio->clave=$request->input('clave');
