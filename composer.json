@@ -11,8 +11,7 @@
     ],
     "require": {
         "php": ">=7",
-        "laravel/framework": ">=5",
-        "fge/nucc": "*"
+        "laravel/framework": ">=5"
     },
     "minimum-stability": "stable",
     "autoload": {
