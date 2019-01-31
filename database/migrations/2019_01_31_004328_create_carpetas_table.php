@@ -13,9 +13,9 @@ class CreateCarpetasTable extends Migration
     {
         Schema::create('carpetas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nuc')->unsigned();
-            $table->text('clave');
-            $table->string('carpeta',15);
+            $table->string('nuc');
+            $table->string('clave');
+            $table->string('carpeta');
             $table->integer('id_estadosnuc')->unsigned();
             $table->foreign('id_estadosnuc')->references('id')->on('estadosnuc')->onDelete('cascade');
             $table->timestamps();
