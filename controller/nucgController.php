@@ -6,26 +6,25 @@ use Illuminate\Support\Facades\DB;
 
 class nucgController extends Controller
 {
-    public function asignarCarpetaNuc($nuc = null, $clave = null, $carpeta= null, $id_estadosnuc = null )
-    {
-        try {
-            $response = \fge\nucg\models\CarpetaModel::where('carpeta',$carpeta)->get();
-            if($response){
-                return \Response::json(['message'=>'carpeta ya registrada'],506);                
+    public function asignarCarpetaNuc($folio = null, $carpeta= null)
+    {       
+            
+            $folder = \fge\nucg\models\CarpetaModel::where('carpeta',$carpeta)
+                                                    ->where('clave',$folio->clave)                                        
+                                                    ->get();            
+            if($folder->count()){
+                return true;            
             }
 
-            $carpeta = new \fge\nucg\models\CarpetaModel();
-            $carpeta->nuc           = $nuc;
-            $carpeta->clave         = $clave;
-            $carpeta->carpeta       = $carpeta;
-            $carpeta->id_estadosnuc = $estatus;
-            $carpeta->save();
-            
-            return \Response::json('asignado',200);
+            $c = new \fge\nucg\models\CarpetaModel();
+            $c->nuc           = $folio->nucl;
+            $c->clave         = $folio->clave;
+            $c->carpeta       = $carpeta;
+            $c->id_estadosnuc = $folio->id_estadosnuc;
+            $c->save();
 
-        } catch (\Throwable $th) {
-            return \Response::json(['message'=>'error interno consulte al administrador'],506);
-        }
+            return false;            
+           
     }
 
     public function hnuc(Request $request){
@@ -54,7 +53,9 @@ class nucgController extends Controller
                 $folio->ip=$ipr;
                 $folio->save();
 
-                $this->asignarCarpetaNuc($folio->nucl, $folio->clave, $request->input('carpeta'), $id_estadosnuc);
+                if($this->asignarCarpetaNuc($folio, $request->input('carpeta'))) {
+                    return \Response::json(['message'=>'Carpeta ya registrada'],506);
+                }
 
 
                 return \Response::json('habilitado',200);
@@ -92,7 +93,7 @@ class nucgController extends Controller
                 $folio->save();
 
                 $this->asignarCarpetaNuc($folio->nucl, $folio->clave, $request->input('carpeta'), $id_estadosnuc);
-                
+
                 return \Response::json('habilitado',200);
             }
         } catch(\Exception $e) {

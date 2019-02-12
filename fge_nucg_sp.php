@@ -8,19 +8,19 @@ class fge_nucg_sp extends ServiceProvider
     
     public function map()
     {        
-        Route::prefix('fge-tok')
-             ->namespace($this->namespace)
-             ->group(__DIR__.'/routes/api.php');
+        // Route::prefix('fge-tok')
+        //      ->namespace($this->namespace)
+        //      ->group(__DIR__.'/routes/api.php');
     }
     public function boot()
     {
         
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        // $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         
         // Para ejecutar las semillas es con el comando php artisan db:seed
-        if ($this->app->runningInConsole()) {
-            $this->registerSeedsFrom(__DIR__.'/database/seed');
-        }
+        // if ($this->app->runningInConsole()) {
+        //     $this->registerSeedsFrom(__DIR__.'/database/seed');
+        // }
 
         parent::boot();
     }

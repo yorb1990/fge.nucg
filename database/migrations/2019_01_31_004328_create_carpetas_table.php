@@ -15,7 +15,7 @@ class CreateCarpetasTable extends Migration
             $table->increments('id');
             $table->string('nuc');
             $table->string('clave');
-            $table->string('carpeta');
+            $table->string('carpeta')->unique();
             $table->integer('id_estadosnuc')->unsigned();
             $table->foreign('id_estadosnuc')->references('id')->on('estadosnuc')->onDelete('cascade');
             $table->timestamps();
